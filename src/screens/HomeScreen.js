@@ -3,6 +3,7 @@ import {Platform, StyleSheet, Text, View, Button} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import {TIMER_SCREEN} from '../constants/navigation';
+import colors from '../constants/colors';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -14,15 +15,15 @@ const instructions = Platform.select({
 export default class HomeScreen extends Component {
   render() {
     const myIcon = (<Icon name="rocket" size={30} color="#900" />)
+    const {navigation} = this.props;
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native! {myIcon}</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
+        <Text style={styles.welcome}>Welcome to Timer Bot! {myIcon}</Text>
         <Text style={styles.instructions}>{instructions}</Text>
         <Button
           title="Go to Timer"
-          onPress={() => this.props.navigation.navigate(TIMER_SCREEN)}
+          onPress={() => navigation.navigate(TIMER_SCREEN)}
         />
       </View>
     );
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: colors.primaryBackgroundColor,
   },
   welcome: {
     fontSize: 20,
