@@ -3,13 +3,16 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React, { PureComponent } from 'react';
 
 const defaultProps = {
-    countdownTime: 0
+    countdownTime: 60
 };
 export default class TimerScreen extends PureComponent {
-    constructor() {
-        super();
-        this.state = { time: {}, seconds: 5 };
+    constructor(props) {
+        super(props);
+        // todo: should refactor code
+               
+        this.state = { time: {}, seconds: 60, percantage: 100 };
         this.timer = 0;
+
         this.countDown = this.countDown.bind(this);
         this.startTimer = this.startTimer.bind(this);
     }
@@ -19,15 +22,14 @@ export default class TimerScreen extends PureComponent {
     }
 
     secondsToTime(secs) {
-        let hours = Math.floor(secs / (60 * 60));
+        const divisor_for_minutes = secs % (60 * 60);
+        const divisor_for_seconds = divisor_for_minutes % 60;
 
-        let divisor_for_minutes = secs % (60 * 60);
-        let minutes = Math.floor(divisor_for_minutes / 60);
+        const hours = Math.floor(secs / (60 * 60));
+        const minutes = Math.floor(divisor_for_minutes / 60);
+        const seconds = Math.ceil(divisor_for_seconds);
 
-        let divisor_for_seconds = divisor_for_minutes % 60;
-        let seconds = Math.ceil(divisor_for_seconds);
-
-        let obj = {
+        const obj = {
             h: hours,
             m: minutes,
             s: seconds
@@ -47,7 +49,8 @@ export default class TimerScreen extends PureComponent {
         debugger;
         this.setState({
             time: this.secondsToTime(seconds),
-            seconds: seconds
+            seconds: seconds,
+            percantage: Math.floor((seconds * this.props.countdownTime) / 100)
         });
 
         if (seconds == 0) {
@@ -61,10 +64,10 @@ export default class TimerScreen extends PureComponent {
                 <AnimatedCircularProgress
                     size={220}
                     width={25}
-                    fill={52}
+                    fill={this.state.percantage}
+                    prefill={100}
                     rotation={0}
                     tintColor="#00e0ff"
-                    onAnimationComplete={() => alert('Session is ended')}
                     backgroundColor="#3d5875"
                 />
                 <TouchableOpacity onPress={this.startTimer}>
