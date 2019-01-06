@@ -13,7 +13,7 @@ const propTypes = {
 export default class TimerScreen extends PureComponent {
     constructor(props) {
         super(props);
-        this.state = { time: {}, seconds: 60, percantage: 100, };
+        this.state = { time: {}, seconds: 60, percentage: 100 };
         this.timer = 0;
 
         this.countDown = this.countDown.bind(this);
@@ -21,7 +21,7 @@ export default class TimerScreen extends PureComponent {
     }
     componentDidMount() {
         let timeLeftVar = this.secondsToTime(this.state.seconds);
-        this.setState({ time: timeLeftVar, });
+        this.setState({ time: timeLeftVar });
     }
 
     secondsToTime(secs) {
@@ -46,11 +46,14 @@ export default class TimerScreen extends PureComponent {
     }
 
     countDown() {
-        let seconds = this.state.seconds - 1;
+        const {seconds} = this.state;
+
+        let tempSeconds = seconds - 1;
         this.setState({
-            time: this.secondsToTime(seconds),
-            seconds,
-            percantage: Math.floor((seconds * 100) / this.props.countdownTime),
+            time: this.secondsToTime(tempSeconds),
+            seconds: tempSeconds,
+            percentage:
+                Math.floor((tempSeconds * 100) / this.props.countdownTime),
         });
 
         if (seconds == 0) {
@@ -59,14 +62,14 @@ export default class TimerScreen extends PureComponent {
     }
 
     render() {
-        const {percantage, time,} = this.state;
+        const {percentage, time} = this.state;
 
         return (
             <View style={styles.container}>
                 <AnimatedCircularProgress
                     size={220}
                     width={25}
-                    fill={percantage}
+                    fill={percentage}
                     prefill={100}
                     rotation={0}
                     tintColor="#00e0ff"

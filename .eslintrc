@@ -14,7 +14,7 @@
         "space-in-parens": ["error", "never"],
         "comma-dangle": ["error", {
           "arrays": "always",
-          "objects": "always",
+          "objects": "always-multiline",
           "imports": "never",
           "exports": "never",
           "functions": "ignore"
