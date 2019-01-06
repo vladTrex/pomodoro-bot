@@ -1,15 +1,18 @@
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 const defaultProps = {
     countdownTime: 60
 };
+
+const propTypes = {
+    countdownTime: PropTypes.number
+};
 export default class TimerScreen extends PureComponent {
     constructor(props) {
         super(props);
-        // todo: should refactor code
-               
         this.state = { time: {}, seconds: 60, percantage: 100 };
         this.timer = 0;
 
@@ -29,16 +32,14 @@ export default class TimerScreen extends PureComponent {
         const minutes = Math.floor(divisor_for_minutes / 60);
         const seconds = Math.ceil(divisor_for_seconds);
 
-        const obj = {
+        return {
             h: hours,
             m: minutes,
             s: seconds
         };
-        return obj;
     }
 
     startTimer() {
-        
         if (this.timer == 0 && this.state.seconds > 0) {
             this.timer = setInterval(this.countDown, 1000);
         }
@@ -46,11 +47,10 @@ export default class TimerScreen extends PureComponent {
 
     countDown() {
         let seconds = this.state.seconds - 1;
-        debugger;
         this.setState({
             time: this.secondsToTime(seconds),
-            seconds: seconds,
-            percantage: Math.floor((seconds * this.props.countdownTime) / 100)
+            seconds,
+            percantage: Math.floor((seconds * 100) / this.props.countdownTime)
         });
 
         if (seconds == 0) {
@@ -59,22 +59,24 @@ export default class TimerScreen extends PureComponent {
     }
 
     render() {
+        const {percantage, time} = this.state;
+
         return (
             <View style={styles.container}>
                 <AnimatedCircularProgress
                     size={220}
                     width={25}
-                    fill={this.state.percantage}
+                    fill={percantage}
                     prefill={100}
                     rotation={0}
                     tintColor="#00e0ff"
                     backgroundColor="#3d5875"
                 />
-                <TouchableOpacity onPress={this.startTimer}>
-                    <Text>Start</Text>
+                <TouchableOpacity style={styles.startButtonStyle} onPress={this.startTimer}>
+                    <Text style={styles.buttonTextStyle}>Start</Text>
                 </TouchableOpacity>
                 <Text>
-                    m: {this.state.time.m} s: {this.state.time.s}
+                    m: {time.m} s: {time.s}
                 </Text>
             </View>
         );
@@ -82,6 +84,7 @@ export default class TimerScreen extends PureComponent {
 }
 
 TimerScreen.defaultProps = defaultProps;
+TimerScreen.propTypes = propTypes;
 
 const styles = StyleSheet.create({
     container: {
@@ -89,5 +92,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ffffff'
+    },
+    startButtonStyle: {
+        padding: 10,
+        marginTop: 10,
+        width: 150,
+        borderRadius: 10,
+        backgroundColor: '#e2e2e2',
+    },
+    buttonTextStyle: {
+        textAlign: 'center',
     }
 });
