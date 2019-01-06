@@ -10,7 +10,15 @@
         "no-console": 2,
         "quotes": ["error", "single"],
         "max-len": ["error", { "code": 80, "tabWidth": 4 }],
-        "no-duplicate-imports": "error"
+        "no-duplicate-imports": "error",
+        "space-in-parens": ["error", "never"],
+        "comma-dangle": ["error", {
+          "arrays": "always",
+          "objects": "always",
+          "imports": "never",
+          "exports": "never",
+          "functions": "ignore"
+        }]
     },
     "env": {}
 }

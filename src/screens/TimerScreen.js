@@ -4,16 +4,16 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 const defaultProps = {
-    countdownTime: 60
+    countdownTime: 60,
 };
 
 const propTypes = {
-    countdownTime: PropTypes.number
+    countdownTime: PropTypes.number,
 };
 export default class TimerScreen extends PureComponent {
     constructor(props) {
         super(props);
-        this.state = { time: {}, seconds: 60, percantage: 100 };
+        this.state = { time: {}, seconds: 60, percantage: 100, };
         this.timer = 0;
 
         this.countDown = this.countDown.bind(this);
@@ -21,7 +21,7 @@ export default class TimerScreen extends PureComponent {
     }
     componentDidMount() {
         let timeLeftVar = this.secondsToTime(this.state.seconds);
-        this.setState({ time: timeLeftVar });
+        this.setState({ time: timeLeftVar, });
     }
 
     secondsToTime(secs) {
@@ -35,7 +35,7 @@ export default class TimerScreen extends PureComponent {
         return {
             h: hours,
             m: minutes,
-            s: seconds
+            s: seconds,
         };
     }
 
@@ -50,7 +50,7 @@ export default class TimerScreen extends PureComponent {
         this.setState({
             time: this.secondsToTime(seconds),
             seconds,
-            percantage: Math.floor((seconds * 100) / this.props.countdownTime)
+            percantage: Math.floor((seconds * 100) / this.props.countdownTime),
         });
 
         if (seconds == 0) {
@@ -59,7 +59,7 @@ export default class TimerScreen extends PureComponent {
     }
 
     render() {
-        const {percantage, time} = this.state;
+        const {percantage, time,} = this.state;
 
         return (
             <View style={styles.container}>
@@ -72,7 +72,8 @@ export default class TimerScreen extends PureComponent {
                     tintColor="#00e0ff"
                     backgroundColor="#3d5875"
                 />
-                <TouchableOpacity style={styles.startButtonStyle} onPress={this.startTimer}>
+                <TouchableOpacity
+                    style={styles.startButtonStyle} onPress={this.startTimer}>
                     <Text style={styles.buttonTextStyle}>Start</Text>
                 </TouchableOpacity>
                 <Text>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
     },
     startButtonStyle: {
         padding: 10,
@@ -102,5 +103,5 @@ const styles = StyleSheet.create({
     },
     buttonTextStyle: {
         textAlign: 'center',
-    }
+    },
 });
